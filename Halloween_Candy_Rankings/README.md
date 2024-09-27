@@ -16,7 +16,7 @@ For a chance to win a free annual membership, your task is to use data to find t
 
  - Create a project based on the challenge objective and publish it to your Maven portfolio (make sure to select the challenge in the project options)
 
- - Share a LinkedIn post mentioning @Maven Analytics and the hashtag #mavenhalloweenchallenge, with an image or link to your project
+ - Share a LinkedIn post mentioning <b>@Maven Analytics</b> and the hashtag <b>#mavenhalloweenchallenge</b>, with an image or link to your project
 
  - Follow Maven Analytics on LinkedIn for updates on the challenge and invite your connections to play along!
 
