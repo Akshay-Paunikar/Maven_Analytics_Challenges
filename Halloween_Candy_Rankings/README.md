@@ -23,3 +23,5 @@ For a chance to win a free annual membership, your task is to use data to find t
 The challenge will close on Sunday October 20th at 11:59pm EST. All entries must be submitted prior.
 
 For complete details, visit the official challenge page: https://mavenanalytics.io/challenges/maven-halloween-challenge/701f06a2-a19b-41e9-95d3-37a0dcc5492f
+
+
