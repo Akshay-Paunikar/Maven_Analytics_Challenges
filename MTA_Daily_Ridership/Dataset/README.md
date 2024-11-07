@@ -1,8 +1,6 @@
-<h2>MTA Daily Ridership</h2>
+<h2>Maven Commuter Challenge</h2>
 
 Create an interactive dashboard illustrating post-pandemic ridership recovery trends across the MTA's services.
-
-The daily ridership dataset provides systemwide ridership and traffic estimates for the Metropolitan Transportation Authority's (MTA) different services beginning March 1st, 2020, and provides a percentage comparison against pre-pandemic figures.
 
 <h4>About The Data Set:</h4>
 
