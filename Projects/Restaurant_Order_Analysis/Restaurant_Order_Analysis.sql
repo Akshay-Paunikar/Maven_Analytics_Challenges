@@ -49,6 +49,13 @@ GROUP BY category;
 -- 1. View the order_details table. What is the date range of the table?
 select * from order_details;
 
+-- 2. How many orders were made within this date range? How many items were ordered within this date range?
+select count(distinct(order_id)) as num_ord
+from order_details;
+
+select count(distinct(order_details_id)) as num_items
+from order_details;
+
 
 
 
