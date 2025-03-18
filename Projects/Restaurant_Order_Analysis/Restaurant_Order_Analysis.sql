@@ -62,6 +62,11 @@ from order_details
 group by order_id
 order by num_items desc;
 
+-- 4. How many orders had more than 12 items?
+select order_id, count(order_details_id) as num_items
+from order_details
+group by order_id
+having num_items > 12;
 
 
 
