@@ -7,5 +7,19 @@ USE restaurant_db;
 -- 1. View the menu_items table and write a query to find the number of items on the menu --
 SELECT * FROM menu_items;
 
-SELECT COUNT(menu_items.menu_item_id) AS num_of_items
+SELECT COUNT(menu_item_id) AS num_of_items
 FROM menu_items;
+
+-- 2. What are the least and most expensive items on the menu? --
+SELECT item_name, price
+FROM menu_items
+ORDER BY price ASC
+LIMIT 1;
+
+SELECT item_name, price
+FROM menu_items
+ORDER BY price DESC
+LIMIT 1;
+
+
+
