@@ -43,5 +43,14 @@ SELECT category, COUNT(menu_item_id) AS num_dish, ROUND(AVG(price),2) AS avg_pri
 FROM menu_items
 GROUP BY category;
 
+-- Objective 2: Explore the orders table --
+-- Your second objective is to better understand the orders table by finding the date range, the number of items within each order, and the orders 
+-- with the highest number of items.
+-- 1. View the order_details table. What is the date range of the table?
+select * from order_details;
+
+
+
+
 
 
