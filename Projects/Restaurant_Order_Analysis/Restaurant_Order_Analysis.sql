@@ -56,6 +56,12 @@ from order_details;
 select count(distinct(order_details_id)) as num_items
 from order_details;
 
+-- 3. Which orders had the most number of items?
+select order_id, count(order_details_id) as num_items
+from order_details
+group by order_id
+order by num_items desc;
+
 
 
 
