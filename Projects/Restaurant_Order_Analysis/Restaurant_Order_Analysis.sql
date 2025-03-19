@@ -72,35 +72,54 @@ as num_items;
 -- Objective 3: Analyze customer behavior
 -- Your final objective is to combine the items and orders tables, find the least and most ordered categories, and dive into the details of the highest spend orders.
 -- 1. Combine the menu_items and order_details tables into a single table
-select * from menu_items
-inner join order_details
-on menu_items.menu_item_id = order_details.item_id;
+select * 
+from order_details as od
+left join menu_items as mi
+on od.item_id = mi.menu_item_id;
 
 -- 2. What were the least and most ordered items? What categories were they in?
-select item_name, category, count(item_id) as num_items
-from 
-(select * from menu_items
-inner join order_details
-on menu_items.menu_item_id = order_details.item_id) as final_data
-group by item_id
-order by num_items;
+select item_name, category, count(order_details_id) as num_purchases
+from order_details as od
+left join menu_items as mi
+on od.item_id = mi.menu_item_id
+group by item_name, category
+order by num_purchases;
 
-select item_name, category, count(item_id) as num_items
-from 
-(select * from menu_items
-inner join order_details
-on menu_items.menu_item_id = order_details.item_id) as final_data
-group by item_id
-order by num_items DESC;
+select item_name, category, count(order_details_id) as num_purchases
+from order_details as od
+left join menu_items as mi
+on od.item_id = mi.menu_item_id
+group by item_name, category
+order by num_purchases DESC;
 
 -- 3. What were the top 5 orders that spent the most money?
-select order_id, sum(price) as total_price
-from 
-(select * from menu_items
-inner join order_details
-on menu_items.menu_item_id = order_details.item_id) as final_data
+select order_id, sum(price) as total_spend
+from order_details as od
+left join menu_items as mi
+on od.item_id = mi.menu_item_id
 group by order_id
-order by total_price DESC
+order by total_spend DESC
 limit 5;
 
+-- 4. View the details of the highest spend order. Which specific items were purchased?
+select category, count(item_id) as num_items
+from order_details as od
+left join menu_items as mi
+on od.item_id = mi.menu_item_id
+where order_id = 440
+group by category;
 
+-- BONUS: View the details of the top 5 highest spend orders
+select category, count(item_id) as num_items
+from order_details as od
+left join menu_items as mi
+on od.item_id = mi.menu_item_id
+where order_id in (440, 2075, 1957, 330, 2675)
+group by category;
+
+select order_id, category, count(item_id) as num_items
+from order_details as od
+left join menu_items as mi
+on od.item_id = mi.menu_item_id
+where order_id in (440, 2075, 1957, 330, 2675)
+group by order_id, category;
