@@ -93,5 +93,14 @@ on menu_items.menu_item_id = order_details.item_id) as final_data
 group by item_id
 order by num_items DESC;
 
+-- 3. What were the top 5 orders that spent the most money?
+select order_id, sum(price) as total_price
+from 
+(select * from menu_items
+inner join order_details
+on menu_items.menu_item_id = order_details.item_id) as final_data
+group by order_id
+order by total_price DESC
+limit 5;
 
 
