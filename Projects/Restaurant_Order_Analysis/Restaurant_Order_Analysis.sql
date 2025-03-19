@@ -45,24 +45,29 @@ GROUP BY category;
 -- 1. View the order_details table. What is the date range of the table?
 select * from order_details;
 
+select min(order_date), max(order_date)
+from order_details;
+
 -- 2. How many orders were made within this date range? How many items were ordered within this date range?
 select count(distinct(order_id)) as num_ord
 from order_details;
 
-select count(distinct(order_details_id)) as num_items
+select count((order_details_id)) as num_items
 from order_details;
 
 -- 3. Which orders had the most number of items?
-select order_id, count(order_details_id) as num_items
+select order_id, count(item_id) as num_items
 from order_details
 group by order_id
 order by num_items desc;
 
 -- 4. How many orders had more than 12 items?
-select order_id, count(order_details_id) as num_items
+select count(*) from
+(select order_id, count(item_id) as num_items
 from order_details
 group by order_id
-having num_items > 12;
+having num_items > 12)
+as num_items;
 
 -- Objective 3: Analyze customer behavior
 -- Your final objective is to combine the items and orders tables, find the least and most ordered categories, and dive into the details of the highest spend orders.
