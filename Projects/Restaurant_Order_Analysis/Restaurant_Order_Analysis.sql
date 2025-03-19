@@ -76,9 +76,22 @@ select * from menu_items
 inner join order_details
 on menu_items.menu_item_id = order_details.item_id;
 
+-- 2. What were the least and most ordered items? What categories were they in?
+select item_name, category, count(item_id) as num_items
+from 
+(select * from menu_items
+inner join order_details
+on menu_items.menu_item_id = order_details.item_id) as final_data
+group by item_id
+order by num_items;
 
-
-
+select item_name, category, count(item_id) as num_items
+from 
+(select * from menu_items
+inner join order_details
+on menu_items.menu_item_id = order_details.item_id) as final_data
+group by item_id
+order by num_items DESC;
 
 
 
