@@ -7,19 +7,17 @@ USE restaurant_db;
 -- 1. View the menu_items table and write a query to find the number of items on the menu --
 SELECT * FROM menu_items;
 
-SELECT COUNT(menu_item_id) AS num_of_items
+SELECT COUNT(*) AS num_of_items
 FROM menu_items;
 
 -- 2. What are the least and most expensive items on the menu? --
 SELECT item_name, price
 FROM menu_items
-ORDER BY price ASC
-LIMIT 1;
+ORDER BY price ASC;
 
 SELECT item_name, price
 FROM menu_items
-ORDER BY price DESC
-LIMIT 1;
+ORDER BY price DESC;
 
 -- 3. How many Italian dishes are on the menu? What are the least and most expensive Italian dishes on the menu?
 SELECT COUNT(menu_item_id) AS num_ital_dish
@@ -29,14 +27,12 @@ WHERE category = 'Italian';
 SELECT item_name, price
 FROM menu_items
 WHERE category = 'Italian'
-ORDER BY price ASC
-LIMIT 1;
+ORDER BY price ASC;
 
 SELECT item_name, price
 FROM menu_items
 WHERE category = 'Italian'
-ORDER BY price DESC
-LIMIT 1;
+ORDER BY price DESC;
 
 -- 4. How many dishes are in each category? What is the average dish price within each category?
 SELECT category, COUNT(menu_item_id) AS num_dish, ROUND(AVG(price),2) AS avg_price
@@ -67,6 +63,11 @@ select order_id, count(order_details_id) as num_items
 from order_details
 group by order_id
 having num_items > 12;
+
+-- Objective 3: Analyze customer behavior
+-- Your final objective is to combine the items and orders tables, find the least and most ordered categories, and dive into the details of the highest spend orders.
+-- 1. Combine the menu_items and order_details tables into a single table
+select 
 
 
 
