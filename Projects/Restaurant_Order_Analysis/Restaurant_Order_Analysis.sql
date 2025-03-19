@@ -72,7 +72,11 @@ as num_items;
 -- Objective 3: Analyze customer behavior
 -- Your final objective is to combine the items and orders tables, find the least and most ordered categories, and dive into the details of the highest spend orders.
 -- 1. Combine the menu_items and order_details tables into a single table
-select 
+select * from menu_items
+inner join order_details
+on menu_items.menu_item_id = order_details.item_id;
+
+
 
 
 
