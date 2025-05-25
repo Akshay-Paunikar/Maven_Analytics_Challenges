@@ -51,8 +51,35 @@ GROUP BY name
 ORDER BY counts DESC
 LIMIT 1; -- ANSWER: Michael --
 
+-- popularity rankings over the years (girls) --
 
+SELECT * FROM (
+	WITH girl_names AS (
+		SELECT year, name, SUM(births) AS counts
+		FROM baby_names_db.names
+		WHERE gender = "F"
+		GROUP BY year, name)
+		
+	SELECT year, name,
+		ROW_NUMBER() OVER (PARTITION BY year ORDER BY counts DESC) AS popularity
+	FROM girl_names) AS popular_girl_name
+WHERE name = "Jessica";
 
+-- popularity rankings over the years (boys) --
+
+SELECT * FROM (
+	WITH boy_names AS (
+		SELECT year, name, SUM(births) AS counts
+		FROM baby_names_db.names
+		WHERE gender = "M"
+		GROUP BY year, name)
+		
+	SELECT year, name,
+		ROW_NUMBER() OVER (PARTITION BY year ORDER BY counts DESC) AS popularity
+	FROM boy_names) AS popular_boy_names
+WHERE name = "Michael";
+
+-- Find the names with the biggest jumps in popularity from the first year of the data set to the last year --
 
 
 
