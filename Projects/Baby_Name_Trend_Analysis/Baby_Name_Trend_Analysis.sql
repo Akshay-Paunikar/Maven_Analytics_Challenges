@@ -25,12 +25,31 @@ Table: regions
  - State: State (abbreviation) in the United States
  - Region: Region of the United States that the state is located in
 */
-use baby_names_db;
-select * from baby_names_db.names;
-select count(*) from baby_names_db.names;
-select * from baby_names_db.regions;
-select count(*) from baby_names_db.regions;
+USE baby_names_db;
+SELECT * FROM baby_names_db.names;
+SELECT COUNT(*) FROM baby_names_db.names;
+SELECT * FROM baby_names_db.regions;
+SELECT COUNT(*) FROM baby_names_db.regions;
 
+-- Objective 1 : Track changes in name popularity
+/* Your first objective is to see how the most popular names have changed over time, 
+and also to identify the names that have jumped the most in terms of popularity.*/
+-- Task 1: Find the overall most popular girl and boy names and show how they have changed in popularity rankings over the years --
+-- most popular girl names --
+SELECT name, sum(births) AS counts
+FROM baby_names_db.names
+WHERE gender = "F"
+GROUP BY name
+ORDER BY counts DESC
+LIMIT 1; -- ANSWER: Jessica --
+
+-- most popular boy names --
+SELECT name, sum(births) AS counts
+FROM baby_names_db.names
+WHERE gender = "M"
+GROUP BY name
+ORDER BY counts DESC
+LIMIT 1; -- ANSWER: Michael --
 
 
 
