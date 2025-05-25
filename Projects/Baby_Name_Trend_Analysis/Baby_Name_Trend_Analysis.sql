@@ -80,8 +80,33 @@ SELECT * FROM (
 WHERE name = "Michael";
 
 -- Find the names with the biggest jumps in popularity from the first year of the data set to the last year --
-
-
+WITH names_1980 AS(
+	WITH all_names AS (
+		SELECT year, name, SUM(births) AS counts
+		FROM baby_names_db.names
+		GROUP BY year, name)
+			
+	SELECT year, name,
+			ROW_NUMBER() OVER (PARTITION BY year ORDER BY counts DESC) AS popularity	
+	FROM all_names
+    WHERE year = 1980),
+names_2009 AS(
+	WITH all_names AS (
+		SELECT year, name, SUM(births) AS counts
+		FROM baby_names_db.names
+		GROUP BY year, name)
+			
+	SELECT year, name,
+			ROW_NUMBER() OVER (PARTITION BY year ORDER BY counts DESC) AS popularity	
+	FROM all_names
+    WHERE year = 2009)
+    
+SELECT t1.year, t1.name, t1.popularity, t2.year, t2.name, t2.popularity,
+	CAST(t2.popularity AS SIGNED) - CAST(t1.popularity AS SIGNED) AS diff
+FROM names_1980 AS t1
+	INNER JOIN names_2009 AS t2
+		ON t1.name = t2.name
+ORDER BY diff ASC;
 
 
 
