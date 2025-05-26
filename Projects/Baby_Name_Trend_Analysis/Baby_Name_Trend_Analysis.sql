@@ -121,7 +121,21 @@ SELECT year, gender, name, counts,
 FROM babies_by_year) AS top_three
 WHERE popularity < 4;
 
+-- Task 2: For each decade, return the 3 most popular girl names and 3 most popular boy names --
 
+SELECT * FROM
+(WITH babies_by_decade AS (SELECT (CASE WHEN year BETWEEN 1980 AND 1989 THEN "80s"
+										WHEN year BETWEEN 1990 AND 1999 THEN "90s"
+                                        WHEN year BETWEEN 2000 AND 2009 THEN "2000s"
+                                        ELSE "None" END) AS decade,
+gender, name, SUM(births) AS counts
+FROM baby_names_db.names
+GROUP BY decade, gender, name)
+
+SELECT decade, gender, name, counts,
+	ROW_NUMBER() OVER (PARTITION BY decade, gender ORDER BY counts DESC) AS popularity
+FROM babies_by_decade) AS top_three
+WHERE popularity < 4;
 
 
 
