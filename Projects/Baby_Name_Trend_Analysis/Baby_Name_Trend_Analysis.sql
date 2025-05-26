@@ -108,8 +108,18 @@ FROM names_1980 AS t1
 		ON t1.name = t2.name
 ORDER BY diff ASC;
 
+-- Objective 2: Compare popularity across decades --
+-- Your second objective is to find the top 3 girl names and top 3 boy names for each year, and also for each decade --
+-- Task 1: For each year, return the 3 most popular girl names and 3 most popular boy names --
+SELECT * FROM
+(WITH babies_by_year AS (SELECT year, gender, name, SUM(births) AS counts
+FROM baby_names_db.names
+GROUP BY year, gender, name)
 
-
+SELECT year, gender, name, counts,
+	ROW_NUMBER() OVER (PARTITION BY year, gender ORDER BY counts DESC) AS popularity
+FROM babies_by_year) AS top_three
+WHERE popularity < 4;
 
 
 
