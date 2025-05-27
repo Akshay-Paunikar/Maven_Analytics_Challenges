@@ -143,6 +143,7 @@ WHERE popularity < 4;
 
 SELECT * FROM baby_names_db.regions;
 SELECT DISTINCT(Region) FROM baby_names_db.regions;
+
 WITH clean_regions AS (SELECT state,
 	CASE WHEN region = "New England" THEN "New_England" ELSE region END AS clean_region
 FROM baby_names_db.regions
@@ -156,6 +157,22 @@ GROUP BY clean_region;
 
 -- Task 2: Return the 3 most popular girl names and 3 most popular boy names within each region --
 
+SELECT * FROM
+(WITH babies_by_regions AS (
+	WITH clean_regions AS (SELECT state,
+		CASE WHEN region = "New England" THEN "New_England" ELSE region END AS clean_region
+	FROM baby_names_db.regions
+	UNION
+	SELECT "MI" AS state, "Midwest" AS region)
+	SELECT CR.clean_region, N.gender, N.name, SUM(N.births) AS counts 
+	FROM names AS N 
+		LEFT JOIN clean_regions CR
+		ON N.state = CR.state
+	GROUP BY CR.clean_region, N.gender, N.name)
+SELECT clean_region, gender, name, 
+	ROW_NUMBER() OVER (PARTITION BY clean_region, gender ORDER BY counts DESC) AS popularity
+FROM babies_by_regions) AS region_popularity
+WHERE popularity < 4;
 
 
 
