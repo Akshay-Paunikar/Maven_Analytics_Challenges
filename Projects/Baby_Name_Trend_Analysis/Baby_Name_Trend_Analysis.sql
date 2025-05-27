@@ -137,6 +137,25 @@ SELECT decade, gender, name, counts,
 FROM babies_by_decade) AS top_three
 WHERE popularity < 4;
 
+-- Objective 3: Compare popularity across regions --
+-- Your third objective is to find the number of babies born in each region, and also return the top 3 girl names and top 3 boy names within each region. --
+-- Task 1: Return the number of babies born in each of the six regions (NOTE: The state of MI should be in the Midwest region)--
+
+SELECT * FROM baby_names_db.regions;
+SELECT DISTINCT(Region) FROM baby_names_db.regions;
+WITH clean_regions AS (SELECT state,
+	CASE WHEN region = "New England" THEN "New_England" ELSE region END AS clean_region
+FROM baby_names_db.regions
+UNION
+SELECT "MI" AS state, "Midwest" AS region)
+SELECT clean_region, SUM(births) AS counts 
+FROM names AS N 
+	LEFT JOIN clean_regions CR
+    ON N.state = CR.state
+GROUP BY clean_region;
+
+-- Task 2: Return the 3 most popular girl names and 3 most popular boy names within each region --
+
 
 
 
