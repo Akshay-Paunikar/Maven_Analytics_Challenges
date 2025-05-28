@@ -26,27 +26,42 @@ Table: regions
  - Region: Region of the United States that the state is located in
 */
 USE baby_names_db;
-SELECT * FROM baby_names_db.names;
-SELECT COUNT(*) FROM baby_names_db.names;
-SELECT * FROM baby_names_db.regions;
-SELECT COUNT(*) FROM baby_names_db.regions;
+SELECT 
+    *
+FROM
+    baby_names_db.names;
+SELECT 
+    COUNT(*)
+FROM
+    baby_names_db.names;
+SELECT 
+    *
+FROM
+    baby_names_db.regions;
+SELECT 
+    COUNT(*)
+FROM
+    baby_names_db.regions;
 
 -- Objective 1 : Track changes in name popularity
 /* Your first objective is to see how the most popular names have changed over time, 
 and also to identify the names that have jumped the most in terms of popularity.*/
--- Task 1: Find the overall most popular girl and boy names and show how they have changed in popularity rankings over the years --
--- most popular girl names --
-SELECT name, sum(births) AS counts
-FROM baby_names_db.names
-WHERE gender = "F"
+SELECT 
+    name, SUM(births) AS counts
+FROM
+    baby_names_db.names
+WHERE
+    gender = 'F'
 GROUP BY name
 ORDER BY counts DESC
-LIMIT 1; -- ANSWER: Jessica --
+LIMIT 1;-- ANSWER: Jessica --
 
--- most popular boy names --
-SELECT name, sum(births) AS counts
-FROM baby_names_db.names
-WHERE gender = "M"
+SELECT 
+    name, SUM(births) AS counts
+FROM
+    baby_names_db.names
+WHERE
+    gender = 'M'
 GROUP BY name
 ORDER BY counts DESC
 LIMIT 1; -- ANSWER: Michael --
@@ -141,8 +156,14 @@ WHERE popularity < 4;
 -- Your third objective is to find the number of babies born in each region, and also return the top 3 girl names and top 3 boy names within each region. --
 -- Task 1: Return the number of babies born in each of the six regions (NOTE: The state of MI should be in the Midwest region)--
 
-SELECT * FROM baby_names_db.regions;
-SELECT DISTINCT(Region) FROM baby_names_db.regions;
+SELECT 
+    *
+FROM
+    baby_names_db.regions;
+SELECT DISTINCT
+    (Region)
+FROM
+    baby_names_db.regions;
 
 WITH clean_regions AS (SELECT state,
 	CASE WHEN region = "New England" THEN "New_England" ELSE region END AS clean_region
@@ -192,15 +213,12 @@ LIMIT 10;
 /* Task 2: Find the length of the shortest and longest names, and identify the most popular short names (those with the fewest characters) and 
 long names (those with the most characters) */
 
--- shortest name --
 SELECT 
-	name, 
-    LENGTH(name) AS name_length
+    name, LENGTH(name) AS name_length
 FROM
-	baby_names_db.names
-ORDER BY name_length; -- 2 characters --
+    baby_names_db.names
+ORDER BY name_length;-- 2 characters --
 
--- longest name --
 SELECT 
     name, LENGTH(name) AS name_length
 FROM
@@ -219,7 +237,57 @@ GROUP BY name
 ORDER BY num_babies DESC;
 
 -- Task 3: The founder of Maven Analytics is named Chris. Find the state with the highest percent of babies named "Chris" --
+SELECT 
+	state, 
+    (num_chris/num_babies) * 100 AS pct_chris
+FROM
+(WITH chris_count AS (
+SELECT 
+	State, 
+    SUM(Births) AS num_chris
+FROM 
+	baby_names_db.names
+WHERE name = "Chris"
+GROUP BY State),
+count_all AS (
+SELECT 
+	State, 
+    SUM(Births) AS num_babies
+FROM 
+	baby_names_db.names
+GROUP BY State)
 
+SELECT
+	CC.state, CC.num_chris, CA.num_babies
+FROM chris_count AS CC
+	INNER JOIN count_all AS CA
+		ON CC.state = CA.state) AS state_chris_all
+ORDER BY pct_chris DESC; -- state LA --
 
+-- lowest percent of babies named "Chris" --
+SELECT 
+	state, 
+    (num_chris/num_babies) * 100 AS pct_chris
+FROM
+(WITH chris_count AS (
+SELECT 
+	State, 
+    SUM(Births) AS num_chris
+FROM 
+	baby_names_db.names
+WHERE name = "Chris"
+GROUP BY State),
+count_all AS (
+SELECT 
+	State, 
+    SUM(Births) AS num_babies
+FROM 
+	baby_names_db.names
+GROUP BY State)
 
-
+SELECT
+	CC.state, CC.num_chris, CA.num_babies
+FROM chris_count AS CC
+	INNER JOIN count_all AS CA
+		ON CC.state = CA.state) AS state_chris_all
+ORDER BY pct_chris;
