@@ -174,6 +174,27 @@ SELECT clean_region, gender, name,
 FROM babies_by_regions) AS region_popularity
 WHERE popularity < 4;
 
+-- Objective 4: Explore unique names in the dataset --
+-- Your final objective is to find the most popular androgynous names, the shortest and longest names, and the state with the highest percent of babies named "Chris" --
+-- Task 1: Find the 10 most popular androgynous names (names given to both females and males) --
+
+SELECT 
+    name,
+    COUNT(DISTINCT gender) AS num_gender,
+    SUM(Births) AS num_babies
+FROM
+    baby_names_db.names
+GROUP BY name
+HAVING num_gender = 2
+ORDER BY num_babies DESC
+LIMIT 10;
+
+/* Task 2: Find the length of the shortest and longest names, and identify the most popular short names (those with the fewest characters) and 
+long names (those with the most characters) */
+
+
+
+-- The founder of Maven Analytics is named Chris. Find the state with the highest percent of babies named "Chris" --
 
 
 
