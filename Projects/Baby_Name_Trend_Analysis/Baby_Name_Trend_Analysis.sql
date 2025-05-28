@@ -192,9 +192,33 @@ LIMIT 10;
 /* Task 2: Find the length of the shortest and longest names, and identify the most popular short names (those with the fewest characters) and 
 long names (those with the most characters) */
 
+-- shortest name --
+SELECT 
+	name, 
+    LENGTH(name) AS name_length
+FROM
+	baby_names_db.names
+ORDER BY name_length; -- 2 characters --
 
+-- longest name --
+SELECT 
+    name, LENGTH(name) AS name_length
+FROM
+    baby_names_db.names
+ORDER BY name_length DESC; -- 15 characters --
 
--- The founder of Maven Analytics is named Chris. Find the state with the highest percent of babies named "Chris" --
+-- most popular short and long names --
+WITH short_long_names AS (
+	SELECT * FROM names
+	WHERE length(name) IN (2,15))
+
+SELECT 
+	name, SUM(births) AS num_babies
+FROM short_long_names
+GROUP BY name
+ORDER BY num_babies DESC;
+
+-- Task 3: The founder of Maven Analytics is named Chris. Find the state with the highest percent of babies named "Chris" --
 
 
 
